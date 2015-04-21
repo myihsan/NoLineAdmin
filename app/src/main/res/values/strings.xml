@@ -6,7 +6,4 @@
     <string name="queue_now_label">当前</string>
     <string name="queue_next_one">下一位</string>
     <string name="queue_detail">排队详情</string>
-
-    <!-- 请求的根地址 -->
-    <string name="root_url">http://192.168.43.195/CCBUPTService/</string>
 </resources>
