@@ -6,7 +6,6 @@
               tools:context=".LoginActivity">
 
     <include
-        android:id="@+id/app_bar"
         layout="@layout/toolbar"/>
 
     <LinearLayout

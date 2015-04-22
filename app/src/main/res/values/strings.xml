@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">NoLineAdmin</string>
-    <string name="logged_admin_id">loggedAdminId</string>
+    <string name="logged_queue_id">loggedQueueId</string>
     <string name="action_logout">注销</string>
     <string name="queue_total_label">排队人数</string>
     <string name="queue_now_label">当前</string>

@@ -20,14 +20,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 
 
@@ -48,7 +43,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         int adminId = PreferenceManager.getDefaultSharedPreferences(this)
-                .getInt(getString(R.string.logged_admin_id), -1);
+                .getInt(getString(R.string.logged_queue_id), -1);
         Log.d(TAG, adminId + "");
         if (adminId != -1) {
             Intent intent = new Intent(LoginActivity.this, QueueActivity.class);
@@ -139,47 +134,26 @@ public class LoginActivity extends BaseActivity {
     /**
      * Shows the progress UI and hides the login form.
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
+        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            }
+        });
 
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
-
-    private interface ProfileQuery {
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
-        };
-
-        int ADDRESS = 0;
-        int IS_PRIMARY = 1;
+        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        mProgressView.animate().setDuration(shortAnimTime).alpha(
+                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 
     /**
@@ -215,19 +189,19 @@ public class LoginActivity extends BaseActivity {
             ArrayList<String> authority = new ArrayList<String>();
             try {
                 JSONObject jsonObject = new JSONObject(jsonString);
-                int adminId = jsonObject.getInt("admin_id");
-                if (adminId != -1) {
+                int queueId = jsonObject.getInt("queueId");
+                if (queueId != -1) {
                     success = true;
                     PreferenceManager.getDefaultSharedPreferences(LoginActivity.this)
                             .edit()
-                            .putInt(getString(R.string.logged_admin_id), adminId)
+                            .putInt(getString(R.string.logged_queue_id), queueId)
                             .commit();
-                    Log.d(TAG, "admin_id: " + adminId);
-                    JSONArray authorityJsonArray = jsonObject.getJSONArray("authority");
-                    for (int i = 0; i < authorityJsonArray.length(); i++) {
-                        authority.add(authorityJsonArray.getString(i));
-                        Log.d(TAG, "authority: " + authorityJsonArray.getString(i));
-                    }
+                    Log.d(TAG, "queueId: " + queueId);
+//                    JSONArray authorityJsonArray = jsonObject.getJSONArray("authority");
+//                    for (int i = 0; i < authorityJsonArray.length(); i++) {
+//                        authority.add(authorityJsonArray.getString(i));
+//                        Log.d(TAG, "authority: " + authorityJsonArray.getString(i));
+//                    }
 //                    try {
 //                        saveAuthority(authorityJsonArray.toString());
 //                    } catch (Exception e) {
