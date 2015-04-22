@@ -73,6 +73,37 @@ public class DataFetcher {
         }
     }
 
+    public ArrayList<Subqueue> fetchQueueDetail(int queueId) {
+        String fetchUrl = mContext.getString(R.string.root_url) + "getqueue.php";
+        String url = Uri.parse(fetchUrl).buildUpon()
+                .appendQueryParameter("queueId", String.valueOf(queueId))
+                .build().toString();
+        ArrayList<Subqueue> subqueues = new ArrayList<Subqueue>();
+        try {
+            String result = getUrl(url);
+            JSONObject jsonObject = new JSONObject(result).getJSONObject("queueDetail");
+            JSONArray subqueueNames = jsonObject.getJSONArray("subqueueNames");
+            JSONArray subqueueSizes = jsonObject.getJSONArray("subqueueSizes");
+            JSONArray subqueueTotals = jsonObject.getJSONArray("subqueueTotals");
+            JSONArray subqueueFirstNumbers = jsonObject.getJSONArray("subqueueFirstNumbers");
+            for (int i = 0; i < subqueueNames.length(); i++) {
+                Subqueue subqueue = new Subqueue();
+                subqueue.setName(subqueueNames.getString(i));
+                subqueue.setSize(subqueueSizes.getInt(i));
+                subqueue.setTotal(subqueueTotals.getInt(i));
+                subqueue.setFirstNumber(subqueueFirstNumbers.getInt(i));
+                subqueues.add(subqueue);
+            }
+        } catch (IOException ioe) {
+            Log.e(TAG, "Failed to fetch URL: ", ioe);
+            return null;
+        } catch (JSONException jsone) {
+            Log.e(TAG, "Failed to parse detail", jsone);
+            return null;
+        }
+        return subqueues;
+    }
+
     private void parseQueue(String jsonString) throws JSONException {
         JSONObject queueObject = new JSONObject(jsonString);
         String title = queueObject.getString("title");
@@ -107,14 +138,16 @@ public class DataFetcher {
         return jsonString;
     }
 
-    public boolean fetchNextQueuerResult(int adminId) {
+    public boolean fetchNextQueuerResult(int queueId, int subqueueNumber, int state) {
         boolean flag = false;
-        if (adminId == -1) {
+        if (queueId == -1) {
             return false;
         }
         String fetchUrl = mContext.getString(R.string.root_url) + "nextqueuer.php";
         String url = Uri.parse(fetchUrl).buildUpon()
-                .appendQueryParameter("adminId", String.valueOf(adminId))
+                .appendQueryParameter("queueId", String.valueOf(queueId))
+                .appendQueryParameter("subqueueNumber", String.valueOf(subqueueNumber))
+                .appendQueryParameter("state", String.valueOf(state))
                 .build().toString();
         try {
             String result = getUrl(url);
