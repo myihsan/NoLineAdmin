@@ -11,7 +11,7 @@
 
 
     <TextView
-        android:id="@+id/queuer_list_item_numberTextView"
+        android:id="@+id/user_list_item_numberTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/body_text_1"
@@ -20,20 +20,10 @@
         />
 
     <TextView
-        android:id="@+id/queuer_list_item_requireTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/queuer_list_item_numberTextView"
-        android:textColor="@color/body_text_1"
-        android:textSize="16sp"
-        tools:text="要求"
-        android:layout_marginLeft="8dp"/>
-
-    <TextView
-        android:id="@+id/queuer_list_item_tokenTextView"
+        android:id="@+id/user_list_item_tokenTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/queuer_list_item_numberTextView"
+        android:layout_below="@id/user_list_item_numberTextView"
         android:textColor="@color/caption_text"
         android:textSize="12sp"
         tools:text="sdfsadfjsladfjsljflskf"/>

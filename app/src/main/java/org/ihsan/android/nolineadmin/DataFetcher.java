@@ -54,25 +54,6 @@ public class DataFetcher {
         return new String(getUrlBytes(urlSpec));
     }
 
-    public boolean fetchQueueByAdminId(int adminId) {
-        String fetchUrl = mContext.getString(R.string.root_url) + "queue.php";
-        String url = Uri.parse(fetchUrl).buildUpon()
-                .appendQueryParameter("adminId", String.valueOf(adminId))
-                .build().toString();
-        try {
-            String jsonString = getUrl(url);
-            Log.i(TAG, jsonString);
-            parseQueue(jsonString);
-            return true;
-        } catch (IOException ioe) {
-            Log.e(TAG, "Failed to fetch URL: ", ioe);
-            return false;
-        } catch (JSONException jsone) {
-            Log.e(TAG, "Failed to parse queue", jsone);
-            return false;
-        }
-    }
-
     public ArrayList<Subqueue> fetchQueueDetail(int queueId) {
         String fetchUrl = mContext.getString(R.string.root_url) + "getqueue.php";
         String url = Uri.parse(fetchUrl).buildUpon()
@@ -104,18 +85,28 @@ public class DataFetcher {
         return subqueues;
     }
 
-    private void parseQueue(String jsonString) throws JSONException {
-        JSONObject queueObject = new JSONObject(jsonString);
-        String title = queueObject.getString("title");
-        int nextNumber = queueObject.getInt("nextNumber");
-        int total = queueObject.getInt("total");
-        ArrayList<Queuer> queuers = new ArrayList<Queuer>();
-        JSONArray queuerArray = queueObject.getJSONArray("queuer");
-        for (int i = 0; i < queuerArray.length(); i++) {
-            Queuer queuer = new Queuer(queuerArray.getJSONObject(i));
-            queuers.add(queuer);
+    public ArrayList<User> fetchUser(int queueId, int subqueueNumber) {
+        String fetchUrl = mContext.getString(R.string.root_url) + "getsubqueuedetail.php";
+        String url = Uri.parse(fetchUrl).buildUpon()
+                .appendQueryParameter("queueId", String.valueOf(queueId))
+                .appendQueryParameter("subqueueNumber", String.valueOf(subqueueNumber))
+                .build().toString();
+        ArrayList<User> users = new ArrayList<User>();
+        try {
+            String result = getUrl(url);
+            JSONArray jsonArray = new JSONArray(result);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                User user = new User(jsonArray.getJSONObject(i));
+                users.add(user);
+            }
+        } catch (IOException ioe) {
+            Log.e(TAG, "Failed to fetch URL: ", ioe);
+            return null;
+        } catch (JSONException jsone) {
+            Log.e(TAG, "Failed to parse detail", jsone);
+            return null;
         }
-        Queue.get(mContext).refreshQueuer(title, nextNumber, total, queuers);
+        return users;
     }
 
     public String fetchLoginResult(String username, String password) {

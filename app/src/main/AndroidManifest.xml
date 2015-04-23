@@ -25,7 +25,7 @@
             android:name=".QueueActivity"
             android:label="@string/app_name"/>
         <activity
-            android:name="QueueDetailActivity"
+            android:name=".UserListActivity"
             android:label=""
             android:parentActivityName=".QueueActivity">
             <meta-data

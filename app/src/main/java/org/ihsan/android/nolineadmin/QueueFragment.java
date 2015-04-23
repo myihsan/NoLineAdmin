@@ -62,26 +62,6 @@ public class QueueFragment extends Fragment {
         }
     }
 
-//    private class FetchQueueTask extends AsyncTask<Void, Void, Boolean> {
-//        @Override
-//        protected Boolean doInBackground(Void... params) {
-//            int adminId = PreferenceManager.getDefaultSharedPreferences(getActivity())
-//                    .getInt(getString(R.string.logged_admin_id), -1);
-//            if (adminId != -1) {
-//                return new DataFetcher(getActivity()).fetchQueueByAdminId(adminId);
-//            }
-//            return false;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Boolean aBoolean) {
-//            if (aBoolean) {
-//                updateView();
-//                mQueueLinearLayout.setVisibility(View.VISIBLE);
-//            }
-//        }
-//    }
-
     private class GetDetailTask extends AsyncTask<Void, Void, ArrayList<Subqueue>> {
         @Override
         protected ArrayList<Subqueue> doInBackground(Void... params) {
@@ -99,19 +79,23 @@ public class QueueFragment extends Fragment {
                 mSubqueueLinearLayout.removeAllViews();
                 for (Subqueue subqueue : subqueues) {
                     final int index = subqueues.indexOf(subqueue);
+                    final String name = subqueue.getName();
                     View subqueueView = getActivity().getLayoutInflater().inflate(R.layout.subqueue_item, mSubqueueLinearLayout, false);
                     TextView subqueueNameTextView = (TextView) subqueueView.findViewById(R.id.subqueue_name_textView);
-                    LinearLayout descriptionView= (LinearLayout) subqueueView.findViewById(R.id.description_view);
+                    LinearLayout descriptionView = (LinearLayout) subqueueView.findViewById(R.id.description_view);
                     TextView subqueueTotalTextView = (TextView) subqueueView.findViewById(R.id.subqueue_total_textView);
                     TextView subqueueFirstNumberTextView = (TextView) subqueueView.findViewById(R.id.subqueue_first_number_textView);
                     TextView subqueueLeftButton = (TextView) subqueueView.findViewById(R.id.subquque_left_button);
                     TextView subqueueRightButton = (TextView) subqueueView.findViewById(R.id.subquque_right_button);
-                    subqueueNameTextView.setText(subqueue.getName());
+                    subqueueNameTextView.setText(name);
                     subqueueTotalTextView.setText(String.valueOf(subqueue.getTotal()));
                     descriptionView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                            Intent intent = new Intent(getActivity(),UserListActivity.class);
+                            intent.putExtra(UserListFragment.EXTRA_SUBQUEUE_NUMBER, index);
+                            intent.putExtra(UserListFragment.EXTRA_SUBQUEUE_NAME, name);
+                            startActivity(intent);
                         }
                     });
                     subqueueFirstNumberTextView.setText(String.valueOf(subqueue.getFirstNumber()));
