@@ -10,9 +10,9 @@ public class User {
     private int mNumber;
     private String mUserId;
 
-    public User(JSONObject jsonQueuer) throws JSONException {
-        mNumber = Integer.valueOf(jsonQueuer.getString("number"));
-        mUserId = jsonQueuer.getString("userId");
+    public User(JSONObject jsonObject) throws JSONException {
+        mNumber = Integer.valueOf(jsonObject.getString("number"));
+        mUserId = jsonObject.getString("userId");
     }
 
     public int getNumber() {
