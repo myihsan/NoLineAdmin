@@ -109,6 +109,31 @@ public class DataFetcher {
         return users;
     }
 
+    public ArrayList<BarChartData> fetchBarChartData(int queueId, String beginDate, String endDate) {
+        String fetchUrl = mContext.getString(R.string.root_url) + "getbarchartdata.php";
+        String url = Uri.parse(fetchUrl).buildUpon()
+                .appendQueryParameter("queueId", String.valueOf(queueId))
+                .appendQueryParameter("beginDate", beginDate)
+                .appendQueryParameter("endDate", endDate)
+                .build().toString();
+        ArrayList<BarChartData> dataArray = new ArrayList<BarChartData>();
+        try {
+            String result = getUrl(url);
+            JSONArray jsonArray = new JSONArray(result);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                BarChartData data = new BarChartData(jsonArray.getJSONObject(i));
+                dataArray.add(data);
+            }
+        } catch (IOException ioe) {
+            Log.e(TAG, "Failed to fetch URL: ", ioe);
+            return null;
+        } catch (JSONException jsone) {
+            Log.e(TAG, "Failed to parse detail", jsone);
+            return null;
+        }
+        return dataArray;
+    }
+
     public String fetchLoginResult(String username, String password) {
         String loginUrl = mContext.getString(R.string.root_url) + "login.php";
         String url = Uri.parse(loginUrl).buildUpon()
