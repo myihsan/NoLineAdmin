@@ -42,7 +42,7 @@ public class QueueActivity extends SingleFragmentActivity {
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName("队列管理").withIcon(R.drawable.ic_format_list_numbered_grey600_24dp),
-                        new PrimaryDrawerItem().withName("统计图标").withIcon(R.drawable.ic_insert_chart_grey600_24dp),
+                        new PrimaryDrawerItem().withName("统计图表").withIcon(R.drawable.ic_insert_chart_grey600_24dp),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName("设置"),
                         new PrimaryDrawerItem().withName("注销")
