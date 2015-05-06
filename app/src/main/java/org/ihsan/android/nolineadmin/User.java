@@ -8,11 +8,11 @@ import org.json.JSONObject;
  */
 public class User {
     private int mNumber;
-    private String mUserId;
+    private String mToken;
 
     public User(JSONObject jsonObject) throws JSONException {
         mNumber = Integer.valueOf(jsonObject.getString("number"));
-        mUserId = jsonObject.getString("userId");
+        mToken = jsonObject.getString("token");
     }
 
     public int getNumber() {
@@ -23,11 +23,11 @@ public class User {
         mNumber = number;
     }
 
-    public String getUserId() {
-        return mUserId;
+    public String getToken() {
+        return mToken;
     }
 
-    public void setUserId(String userId) {
-        this.mUserId = userId;
+    public void setToken(String token) {
+        this.mToken = token;
     }
 }
