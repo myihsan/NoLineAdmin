@@ -160,7 +160,7 @@ public class LoginActivity extends BaseActivity {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, String> {
+    public class UserLoginTask extends AsyncTask<Void, Void, Integer> {
 
         private final String mUsername;
         private final String mPassword;
@@ -171,49 +171,25 @@ public class LoginActivity extends BaseActivity {
         }
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected Integer doInBackground(Void... params) {
             return new DataFetcher(LoginActivity.this).fetchLoginResult(mUsername, mPassword);
         }
 
         @Override
-        protected void onPostExecute(final String jsonString) {
+        protected void onPostExecute(Integer queueId) {
             mAuthTask = null;
             showProgress(false);
 
-            if (jsonString == null) {
+            if (queueId == -2) {
                 Toast.makeText(LoginActivity.this, "网络连接失败，无法登录", Toast.LENGTH_LONG).show();
                 return;
-            }
+            } else if (queueId != -1) {
+                PreferenceManager.getDefaultSharedPreferences(LoginActivity.this)
+                        .edit()
+                        .putInt(getString(R.string.logged_queue_id), queueId)
+                        .commit();
+                Log.d(TAG, "queueId: " + queueId);
 
-            boolean success = false;
-            ArrayList<String> authority = new ArrayList<String>();
-            try {
-                JSONObject jsonObject = new JSONObject(jsonString);
-                int queueId = jsonObject.getInt("queueId");
-                if (queueId != -1) {
-                    success = true;
-                    PreferenceManager.getDefaultSharedPreferences(LoginActivity.this)
-                            .edit()
-                            .putInt(getString(R.string.logged_queue_id), queueId)
-                            .commit();
-                    Log.d(TAG, "queueId: " + queueId);
-//                    JSONArray authorityJsonArray = jsonObject.getJSONArray("authority");
-//                    for (int i = 0; i < authorityJsonArray.length(); i++) {
-//                        authority.add(authorityJsonArray.getString(i));
-//                        Log.d(TAG, "authority: " + authorityJsonArray.getString(i));
-//                    }
-//                    try {
-//                        saveAuthority(authorityJsonArray.toString());
-//                    } catch (Exception e) {
-//                        Log.e(TAG, "Error saving authority", e);
-//                    }
-                }
-            } catch (JSONException jsone) {
-                Log.e(TAG, "Failed to parse notices", jsone);
-                success = false;
-            }
-
-            if (success) {
                 Intent intent = new Intent(LoginActivity.this, QueueActivity.class);
                 startActivity(intent);
                 finish();
@@ -228,21 +204,6 @@ public class LoginActivity extends BaseActivity {
             mAuthTask = null;
             showProgress(false);
         }
-
-//        private void saveAuthority(String authorityJsonString) throws IOException {
-//
-//            Writer writer = null;
-//            try {
-//                OutputStream out = LoginActivity.this
-//                        .openFileOutput(getString(R.string.saved_authority_file_name), MODE_PRIVATE);
-//                writer = new OutputStreamWriter(out);
-//                writer.write(authorityJsonString);
-//            } finally {
-//                if (writer != null) {
-//                    writer.close();
-//                }
-//            }
-//        }
     }
 }
 
