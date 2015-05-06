@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,7 +44,7 @@ public class UserListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String title = getArguments().getString(EXTRA_SUBQUEUE_NAME);
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(title);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
         setHasOptionsMenu(true);
     }
 
@@ -90,7 +91,7 @@ public class UserListFragment extends Fragment {
             numberTextView.setText(String.valueOf(user.getNumber()));
             TextView tokenTextView =
                     (TextView) convertView.findViewById(R.id.user_list_item_tokenTextView);
-            tokenTextView.setText(user.getUserId());
+            tokenTextView.setText(user.getToken());
 
             return convertView;
         }
