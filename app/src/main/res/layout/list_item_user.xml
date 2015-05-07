@@ -5,7 +5,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:minHeight="75dp"
-                android:orientation="vertical"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
@@ -24,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/user_list_item_numberTextView"
-        android:textColor="@color/caption_text"
+        android:textColor="@color/body_text_2"
         android:textSize="12sp"
         tools:text="sdfsadfjsladfjsljflskf"/>
 
