@@ -1,7 +1,5 @@
 package org.ihsan.android.nolineadmin;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -15,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +48,7 @@ public class QueueFragment extends Fragment {
             case R.id.action_logout:
                 PreferenceManager.getDefaultSharedPreferences(getActivity())
                         .edit()
-                        .remove(getString(R.string.logged_queue_id))
+                        .remove(getString(R.string.logined_queue_id))
                         .commit();
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
@@ -66,7 +63,7 @@ public class QueueFragment extends Fragment {
         @Override
         protected ArrayList<Subqueue> doInBackground(Void... params) {
             int queueId = PreferenceManager.getDefaultSharedPreferences(getActivity())
-                    .getInt(getString(R.string.logged_queue_id), -1);
+                    .getInt(getString(R.string.logined_queue_id), -1);
             if (queueId != -1) {
                 return new DataFetcher(getActivity()).fetchQueueDetail(queueId);
             }
@@ -123,7 +120,7 @@ public class QueueFragment extends Fragment {
         @Override
         protected Boolean doInBackground(Integer... params) {
             int queueId = PreferenceManager.getDefaultSharedPreferences(getActivity())
-                    .getInt(getString(R.string.logged_queue_id), -1);
+                    .getInt(getString(R.string.logined_queue_id), -1);
             return new DataFetcher(getActivity()).fetchNextQueuerResult(queueId, params[0], params[1]);
         }
 

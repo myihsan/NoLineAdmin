@@ -13,7 +13,6 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 /**
@@ -70,7 +69,7 @@ public class QueueActivity extends SingleFragmentActivity {
                             case 4:
                                 PreferenceManager.getDefaultSharedPreferences(QueueActivity.this)
                                         .edit()
-                                        .remove(getString(R.string.logged_queue_id))
+                                        .remove(getString(R.string.logined_queue_id))
                                         .commit();
                                 Intent intent = new Intent(QueueActivity.this, LoginActivity.class);
                                 startActivity(intent);

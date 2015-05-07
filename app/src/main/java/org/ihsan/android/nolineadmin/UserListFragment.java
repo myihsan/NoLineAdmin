@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -101,7 +100,7 @@ public class UserListFragment extends Fragment {
         @Override
         protected ArrayList<User> doInBackground(Void... params) {
             int queueId = PreferenceManager.getDefaultSharedPreferences(getActivity())
-                    .getInt(getString(R.string.logged_queue_id), -1);
+                    .getInt(getString(R.string.logined_queue_id), -1);
             return new DataFetcher(getActivity()).fetchUser(queueId, getArguments().getInt(EXTRA_SUBQUEUE_NUMBER));
         }
 

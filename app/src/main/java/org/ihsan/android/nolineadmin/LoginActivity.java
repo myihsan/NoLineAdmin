@@ -2,13 +2,10 @@ package org.ihsan.android.nolineadmin;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -19,11 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 
 public class LoginActivity extends BaseActivity {
@@ -43,7 +35,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         int adminId = PreferenceManager.getDefaultSharedPreferences(this)
-                .getInt(getString(R.string.logged_queue_id), -1);
+                .getInt(getString(R.string.logined_queue_id), -1);
         Log.d(TAG, adminId + "");
         if (adminId != -1) {
             Intent intent = new Intent(LoginActivity.this, QueueActivity.class);
@@ -186,7 +178,7 @@ public class LoginActivity extends BaseActivity {
             } else if (queueId != -1) {
                 PreferenceManager.getDefaultSharedPreferences(LoginActivity.this)
                         .edit()
-                        .putInt(getString(R.string.logged_queue_id), queueId)
+                        .putInt(getString(R.string.logined_queue_id), queueId)
                         .commit();
                 Log.d(TAG, "queueId: " + queueId);
 

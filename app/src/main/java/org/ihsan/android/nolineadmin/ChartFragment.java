@@ -196,7 +196,7 @@ public class ChartFragment extends Fragment {
         @Override
         protected ArrayList<BarChartData> doInBackground(Void... params) {
             int queueId = PreferenceManager.getDefaultSharedPreferences(getActivity())
-                    .getInt(getString(R.string.logged_queue_id), -1);
+                    .getInt(getString(R.string.logined_queue_id), -1);
             return new DataFetcher(getActivity()).fetchBarChartData(queueId,mBeginDate,mEndDate);
         }
 
