@@ -38,7 +38,7 @@ public class LoginActivity extends BaseActivity {
                 .getInt(getString(R.string.logined_queue_id), -1);
         Log.d(TAG, adminId + "");
         if (adminId != -1) {
-            Intent intent = new Intent(LoginActivity.this, QueueActivity.class);
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }
@@ -182,7 +182,7 @@ public class LoginActivity extends BaseActivity {
                         .commit();
                 Log.d(TAG, "queueId: " + queueId);
 
-                Intent intent = new Intent(LoginActivity.this, QueueActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             } else {

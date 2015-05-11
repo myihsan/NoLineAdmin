@@ -18,7 +18,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 /**
  * Created by Ihsan on 15/3/23.
  */
-public class QueueActivity extends SingleFragmentActivity {
+public class MainActivity extends SingleFragmentActivity {
     @Override
     protected Fragment createFragment() {
         return new QueueFragment();
@@ -67,11 +67,11 @@ public class QueueActivity extends SingleFragmentActivity {
                             case 3:
                                 break;
                             case 4:
-                                PreferenceManager.getDefaultSharedPreferences(QueueActivity.this)
+                                PreferenceManager.getDefaultSharedPreferences(MainActivity.this)
                                         .edit()
                                         .remove(getString(R.string.logined_queue_id))
                                         .commit();
-                                Intent intent = new Intent(QueueActivity.this, LoginActivity.class);
+                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();
                                 break;
