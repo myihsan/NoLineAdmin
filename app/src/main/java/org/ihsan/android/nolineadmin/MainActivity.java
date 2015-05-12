@@ -13,6 +13,7 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 /**
@@ -40,11 +41,11 @@ public class MainActivity extends SingleFragmentActivity {
                 .withToolbar(mToolbar)
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName("队列管理").withIcon(R.drawable.ic_format_list_numbered_grey600_24dp),
-                        new PrimaryDrawerItem().withName("统计图表").withIcon(R.drawable.ic_insert_chart_grey600_24dp),
+                        new PrimaryDrawerItem().withName("队列管理").withIcon(R.drawable.ic_format_list_numbered_grey600_24dp).withIconTinted(true),
+                        new PrimaryDrawerItem().withName("统计图表").withIcon(R.drawable.ic_insert_chart_grey600_24dp).withIconTinted(true),
                         new DividerDrawerItem(),
-                        new PrimaryDrawerItem().withName("设置"),
-                        new PrimaryDrawerItem().withName("注销")
+                        new SecondaryDrawerItem().withName("设置"),
+                        new SecondaryDrawerItem().withName("注销")
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
