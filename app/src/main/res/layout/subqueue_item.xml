@@ -1,106 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<android.support.v7.widget.CardView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/small_padding"
-    android:layout_marginRight="@dimen/small_padding"
-    android:layout_marginTop="@dimen/small_padding"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="2dp"
-    app:cardUseCompatPadding="true">
+    android:layout_height="wrap_content">
 
-
-    <RelativeLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_padding"
+        android:layout_marginRight="@dimen/small_padding"
+        android:layout_marginTop="@dimen/small_padding"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true">
 
-        <TextView
-            android:id="@+id/subqueue_first_number_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/big_padding"
-            android:includeFontPadding="false"
-            android:singleLine="true"
-            android:text="61"
-            android:textColor="@color/primary_light"
-            android:textSize="134sp"
-            />
 
-        <TextView
-            android:id="@+id/subqueue_name_textView"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/big_padding"
-            android:paddingRight="@dimen/big_padding"
-            android:paddingTop="24dp"
-            android:textColor="@color/body_text_1"
-            android:textSize="@dimen/bigger_title_size"
-            tools:text="大桌"/>
-
-        <LinearLayout
-            android:id="@+id/description_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/subqueue_name_textView"
-            android:layout_marginBottom="@dimen/small_padding"
-            android:layout_marginLeft="@dimen/small_padding"
-            android:layout_marginRight="@dimen/small_padding"
-            android:background="?android:selectableItemBackground"
-            android:paddingBottom="@dimen/small_padding"
-            android:paddingLeft="@dimen/small_padding"
-            android:paddingRight="@dimen/small_padding"
-            android:paddingTop="@dimen/small_padding">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/subqueue_first_number_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="排队总数："
-                android:textColor="@color/body_text_2"
-                android:textSize="@dimen/description_size"/>
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/big_padding"
+                android:includeFontPadding="false"
+                android:singleLine="true"
+                android:text="61"
+                android:textColor="@color/primary_light"
+                android:textSize="134sp"
+                />
 
             <TextView
-                android:id="@+id/subqueue_total_textView"
+                android:id="@+id/subqueue_name_textView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/big_padding"
+                android:paddingRight="@dimen/big_padding"
+                android:paddingTop="24dp"
+                android:textColor="@color/body_text_1"
+                android:textSize="@dimen/bigger_title_size"
+                tools:text="大桌"/>
+
+            <LinearLayout
+                android:id="@+id/description_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/body_text_2"
-                android:textSize="@dimen/description_size"
-                tools:text="9"/>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:padding="@dimen/small_padding">
-
-            <TextView
-                android:id="@+id/subquque_left_button"
-                style="@style/LeftButtonStyle"
-                android:layout_width="wrap_content"
+                android:layout_below="@+id/subqueue_name_textView"
+                android:layout_marginBottom="@dimen/small_padding"
+                android:layout_marginLeft="@dimen/small_padding"
                 android:layout_marginRight="@dimen/small_padding"
                 android:background="?android:selectableItemBackground"
+                android:paddingBottom="@dimen/small_padding"
                 android:paddingLeft="@dimen/small_padding"
                 android:paddingRight="@dimen/small_padding"
-                android:text="过号"/>
+                android:paddingTop="@dimen/small_padding">
 
-            <TextView
-                android:id="@+id/subquque_right_button"
-                style="@style/RightButtonStyle"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="排队总数："
+                    android:textColor="@color/body_text_2"
+                    android:textSize="@dimen/description_size"/>
+
+                <TextView
+                    android:id="@+id/subqueue_total_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/body_text_2"
+                    android:textSize="@dimen/description_size"
+                    tools:text="9"/>
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:background="?android:selectableItemBackground"
-                android:paddingLeft="@dimen/small_padding"
-                android:paddingRight="@dimen/small_padding"
-                android:text="进店"/>
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:padding="@dimen/small_padding">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/subquque_left_button"
+                    style="@style/LeftButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="@dimen/small_padding"
+                    android:background="?android:selectableItemBackground"
+                    android:paddingLeft="@dimen/small_padding"
+                    android:paddingRight="@dimen/small_padding"
+                    android:text="过号"/>
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/subquque_right_button"
+                    style="@style/RightButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:background="?android:selectableItemBackground"
+                    android:paddingLeft="@dimen/small_padding"
+                    android:paddingRight="@dimen/small_padding"
+                    android:text="进店"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
 
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+</FrameLayout>
