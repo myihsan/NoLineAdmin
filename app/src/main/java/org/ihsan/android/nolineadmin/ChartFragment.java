@@ -52,7 +52,7 @@ public class ChartFragment extends Fragment {
 
         mDateTextView = (TextView) view.findViewById(R.id.chart_date_textView);
         if (mEndDate == null) {
-            getThisWeek(new Date());
+            getThisWeekStart(new Date());
         }
         mDateTextView.setText(mBeginDate + " ~ " + mEndDate);
 
@@ -68,7 +68,7 @@ public class ChartFragment extends Fragment {
                     e.printStackTrace();
                 }
                 calendar.add(Calendar.DATE, -1);
-                getThisWeek(calendar.getTime());
+                getThisWeekStart(calendar.getTime());
                 mDateTextView.setText(mBeginDate + " ~ " + mEndDate);
                 mDateRightButton.setClickable(true);
                 new FetchBarChartData().execute();
@@ -77,11 +77,14 @@ public class ChartFragment extends Fragment {
         mDateRightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
                 try {
-                    getNextWeek(mDateFormat.parse(mEndDate));
+                    calendar.setTime(mDateFormat.parse(mEndDate));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                calendar.add(Calendar.DATE, 1);
+                getThisWeekEnd(calendar.getTime());
                 mDateTextView.setText(mBeginDate + " ~ " + mEndDate);
                 new FetchBarChartData().execute();
             }
@@ -110,7 +113,7 @@ public class ChartFragment extends Fragment {
         return view;
     }
 
-    public void getThisWeek(Date date) {
+    public void getThisWeekStart(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         mEndDate = mDateFormat.format(date);
@@ -122,11 +125,10 @@ public class ChartFragment extends Fragment {
         mBeginDate = mDateFormat.format(calendar.getTime());
     }
 
-    public void getNextWeek(Date date) {
+    public void getThisWeekEnd(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar.add(Calendar.DATE, 1);
-        mBeginDate = mDateFormat.format(calendar.getTime());
+        mBeginDate = mDateFormat.format(date);
         calendar.add(Calendar.DATE, 6);
         Date endDate = calendar.getTime();
         Date nowDate = new Date();
