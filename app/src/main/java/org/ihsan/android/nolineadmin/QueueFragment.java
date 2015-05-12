@@ -111,7 +111,7 @@ public class QueueFragment extends Fragment {
         }
     }
 
-    private class SubqueueAdapter extends ArrayAdapter<org.ihsan.android.nolineadmin.Subqueue> {
+    private class SubqueueAdapter extends ArrayAdapter<Subqueue> {
         public SubqueueAdapter(ArrayList<Subqueue> subqueues) {
             super(getActivity(), 0, subqueues);
         }
@@ -122,6 +122,7 @@ public class QueueFragment extends Fragment {
                 convertView = getActivity().getLayoutInflater()
                         .inflate(R.layout.subqueue_item, null);
             }
+            convertView.setOnClickListener(null);
 
             Subqueue subqueue = getItem(position);
             final int index = position;
