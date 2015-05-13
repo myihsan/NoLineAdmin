@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -22,15 +23,19 @@ import java.util.ArrayList;
  * Created by Ihsan on 15/2/4.
  */
 public class UserListFragment extends Fragment {
-    public static final String EXTRA_SUBQUEUE_NUMBER = "org.ihsan.android.onlineadmin.subqueue_number";
+    public static final String EXTRA_SUBQUEUE_NUMBER = "org.ihsan.android.onlineadmin" +
+            ".subqueue_number";
     public static final String EXTRA_SUBQUEUE_NAME = "org.ihsan.android.onlineadmin.subqueue_name";
+    public static final String EXTRA_SUBQUEUE_USERS = "org.ihsan.android.onlineadmin" +
+            ".subqueue_users";
     private ListView mUserListView;
     private ArrayList<User> mUsers = new ArrayList<User>();
 
-    public static UserListFragment newInstance(int number, String name) {
+    public static UserListFragment newInstance(int number, String name, ArrayList<User> users) {
         Bundle args = new Bundle();
         args.putInt(EXTRA_SUBQUEUE_NUMBER, number);
         args.putString(EXTRA_SUBQUEUE_NAME, name);
+        args.putSerializable(EXTRA_SUBQUEUE_USERS, users);
 
         UserListFragment fragment = new UserListFragment();
         fragment.setArguments(args);
@@ -49,7 +54,8 @@ public class UserListFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_list, container, false);
         mUserListView = (ListView) view.findViewById(R.id.user_list_listView);
         mUserListView.setAdapter(new UserAdapter(mUsers));
@@ -101,14 +107,23 @@ public class UserListFragment extends Fragment {
         protected ArrayList<User> doInBackground(Void... params) {
             int queueId = PreferenceManager.getDefaultSharedPreferences(getActivity())
                     .getInt(getString(R.string.logined_queue_id), -1);
-            return new DataFetcher(getActivity()).fetchUser(queueId, getArguments().getInt(EXTRA_SUBQUEUE_NUMBER));
+            return new DataFetcher(getActivity()).fetchUser(queueId, getArguments().getInt
+                    (EXTRA_SUBQUEUE_NUMBER));
         }
 
         @Override
         protected void onPostExecute(ArrayList<User> users) {
-            mUsers.clear();
-            mUsers.addAll(users);
-            ((UserAdapter) mUserListView.getAdapter()).notifyDataSetChanged();
+            if (users == null) {
+                users = (ArrayList<User>) getArguments().getSerializable(EXTRA_SUBQUEUE_USERS);
+                Toast.makeText(getActivity(), "服务器连接故障，更新信息失败", Toast.LENGTH_LONG).show();
+            }
+            if (users != null) {
+                mUsers.clear();
+                mUsers.addAll(users);
+                ((UserAdapter) mUserListView.getAdapter()).notifyDataSetChanged();
+            } else {
+                Toast.makeText(getActivity(), "获取信息失败，请重试", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

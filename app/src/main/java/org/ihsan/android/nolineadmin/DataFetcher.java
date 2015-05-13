@@ -2,6 +2,7 @@ package org.ihsan.android.nolineadmin;
 
 import android.content.Context;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -59,30 +60,55 @@ public class DataFetcher {
         String url = Uri.parse(fetchUrl).buildUpon()
                 .appendQueryParameter("queueId", String.valueOf(queueId))
                 .build().toString();
+        String result = null;
         ArrayList<Subqueue> subqueues = new ArrayList<Subqueue>();
         try {
-            String result = getUrl(url);
-            JSONObject jsonObject = new JSONObject(result).getJSONObject("queueDetail");
-            JSONArray subqueueNames = jsonObject.getJSONArray("subqueueNames");
-            JSONArray subqueueSizes = jsonObject.getJSONArray("subqueueSizes");
-            JSONArray subqueueTotals = jsonObject.getJSONArray("subqueueTotals");
-            JSONArray subqueueFirstNumbers = jsonObject.getJSONArray("subqueueFirstNumbers");
-            for (int i = 0; i < subqueueNames.length(); i++) {
-                Subqueue subqueue = new Subqueue();
-                subqueue.setName(subqueueNames.getString(i));
-                subqueue.setSize(subqueueSizes.getInt(i));
-                subqueue.setTotal(subqueueTotals.getInt(i));
-                subqueue.setFirstNumber(subqueueFirstNumbers.getInt(i));
-                subqueues.add(subqueue);
+            try {
+                result = getUrl(url);
+                PreferenceManager.getDefaultSharedPreferences(mContext)
+                        .edit()
+                        .putString(mContext.getString(R.string.queue_detail_cache), result)
+                        .commit();
+                parseQueueDetail(subqueues, result);
+                subqueues.get(0).setIsFresh(true);
+            } catch (IOException ioe) {
+                Log.e(TAG, "Failed to fetch URL: ", ioe);
+                result = PreferenceManager.getDefaultSharedPreferences(mContext)
+                        .getString(mContext.getString(R.string.queue_detail_cache), null);
+                if (result != null) {
+                    parseQueueDetail(subqueues, result);
+                }
             }
-        } catch (IOException ioe) {
-            Log.e(TAG, "Failed to fetch URL: ", ioe);
-            return null;
         } catch (JSONException jsone) {
             Log.e(TAG, "Failed to parse result", jsone);
             return null;
         }
         return subqueues;
+    }
+
+    public void parseQueueDetail(ArrayList<Subqueue> subqueues, String jsonString) throws
+            JSONException {
+        JSONObject jsonObject = new JSONObject(jsonString).getJSONObject("queueDetail");
+        JSONArray subqueueNames = jsonObject.getJSONArray("subqueueNames");
+        JSONArray subqueueSizes = jsonObject.getJSONArray("subqueueSizes");
+        JSONArray subqueueTotals = jsonObject.getJSONArray("subqueueTotals");
+        JSONArray subqueueFirstNumbers = jsonObject.getJSONArray("subqueueFirstNumbers");
+        JSONArray subqueueUserArrays = jsonObject.getJSONArray("subqueueUserArrays");
+        for (int i = 0; i < subqueueNames.length(); i++) {
+            Subqueue subqueue = new Subqueue();
+            subqueue.setName(subqueueNames.getString(i));
+            subqueue.setSize(subqueueSizes.getInt(i));
+            subqueue.setTotal(subqueueTotals.getInt(i));
+            subqueue.setFirstNumber(subqueueFirstNumbers.getInt(i));
+            JSONArray userArray = subqueueUserArrays.getJSONArray(i);
+            ArrayList<User> users = new ArrayList<User>();
+            for (int j = 0; j < userArray.length(); j++) {
+                User user = new User(userArray.getJSONObject(j));
+                users.add(user);
+            }
+            subqueue.setUsers(users);
+            subqueues.add(subqueue);
+        }
     }
 
     public ArrayList<User> fetchUser(int queueId, int subqueueNumber) {
@@ -109,7 +135,8 @@ public class DataFetcher {
         return users;
     }
 
-    public ArrayList<BarChartData> fetchBarChartData(int queueId, String beginDate, String endDate) {
+    public ArrayList<BarChartData> fetchBarChartData(int queueId, String beginDate, String
+            endDate) {
         String fetchUrl = mContext.getString(R.string.root_url) + "getbarchartdata.php";
         String url = Uri.parse(fetchUrl).buildUpon()
                 .appendQueryParameter("queueId", String.valueOf(queueId))
@@ -135,7 +162,7 @@ public class DataFetcher {
     }
 
     public int fetchLoginResult(String username, String password) {
-        int queueId=-1;
+        int queueId = -1;
         String loginUrl = mContext.getString(R.string.root_url) + "login.php";
         String url = Uri.parse(loginUrl).buildUpon()
                 .appendQueryParameter("username", username)
@@ -155,7 +182,7 @@ public class DataFetcher {
         } catch (JSONException jsone) {
             Log.e(TAG, "Failed to parse result", jsone);
         }
-        Log.d(TAG, queueId+"");
+        Log.d(TAG, queueId + "");
         return queueId;
     }
 

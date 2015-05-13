@@ -3,12 +3,18 @@ package org.ihsan.android.nolineadmin;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by Ihsan on 15/2/3.
  */
-public class User {
+public class User implements Serializable {
     private int mNumber;
     private String mToken;
+
+    public User(){
+
+    }
 
     public User(JSONObject jsonObject) throws JSONException {
         mNumber = Integer.valueOf(jsonObject.getString("number"));

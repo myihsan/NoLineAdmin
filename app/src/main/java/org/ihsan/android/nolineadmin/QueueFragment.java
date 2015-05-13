@@ -82,6 +82,9 @@ public class QueueFragment extends Fragment {
                 mSubqueues.clear();
                 mSubqueues.addAll(subqueues);
                 updateAdapter();
+                if(!subqueues.get(0).isFresh()){
+                    Toast.makeText(getActivity(), "服务器连接故障，更新信息失败", Toast.LENGTH_LONG).show();
+                }
             } else {
                 Toast.makeText(getActivity(), "获取队列信息失败，请重试", Toast.LENGTH_LONG).show();
             }
@@ -127,6 +130,7 @@ public class QueueFragment extends Fragment {
             Subqueue subqueue = getItem(position);
             final int index = position;
             final String name = subqueue.getName();
+            final ArrayList<User> users = subqueue.getUsers();
             TextView subqueueNameTextView = (TextView) convertView.findViewById(R.id
                     .subqueue_name_textView);
             LinearLayout descriptionView = (LinearLayout) convertView.findViewById(R.id
@@ -147,6 +151,7 @@ public class QueueFragment extends Fragment {
                     Intent intent = new Intent(getActivity(), UserListActivity.class);
                     intent.putExtra(UserListFragment.EXTRA_SUBQUEUE_NUMBER, index);
                     intent.putExtra(UserListFragment.EXTRA_SUBQUEUE_NAME, name);
+                    intent.putExtra(UserListFragment.EXTRA_SUBQUEUE_USERS, users);
                     startActivity(intent);
                 }
             });
