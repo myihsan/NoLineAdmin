@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -47,7 +48,8 @@ public class ChartFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chart, container, false);
 
         mDateTextView = (TextView) view.findViewById(R.id.chart_date_textView);
@@ -199,12 +201,16 @@ public class ChartFragment extends Fragment {
         protected ArrayList<BarChartData> doInBackground(Void... params) {
             int queueId = PreferenceManager.getDefaultSharedPreferences(getActivity())
                     .getInt(getString(R.string.logined_queue_id), -1);
-            return new DataFetcher(getActivity()).fetchBarChartData(queueId,mBeginDate,mEndDate);
+            return new DataFetcher(getActivity()).fetchBarChartData(queueId, mBeginDate, mEndDate);
         }
 
         @Override
         protected void onPostExecute(ArrayList<BarChartData> dataArray) {
-            setData(dataArray);
+            if (dataArray != null) {
+                setData(dataArray);
+            } else {
+                Toast.makeText(getActivity(), "获取信息失败，请重试", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
