@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 public class QueueFragment extends Fragment {
     private static final String TAG = "QueueFragment";
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private ListView mSubqueueListView;
 
     private ArrayList<Subqueue> mSubqueues = new ArrayList<Subqueue>();
@@ -36,6 +38,14 @@ public class QueueFragment extends Fragment {
             savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_queue, container, false);
+        mSwipeRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.queue_swipeRefreshLayout);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.primary);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new GetDetailTask().execute();
+            }
+        });
         mSubqueueListView = (ListView) view.findViewById(R.id.subqueue_list_view);
         mSubqueueListView.setAdapter(new SubqueueAdapter(mSubqueues));
         new GetDetailTask().execute();
@@ -88,6 +98,7 @@ public class QueueFragment extends Fragment {
             } else {
                 Toast.makeText(getActivity(), "获取队列信息失败，请重试", Toast.LENGTH_LONG).show();
             }
+            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 

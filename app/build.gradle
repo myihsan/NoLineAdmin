@@ -31,4 +31,5 @@ dependencies {
         transitive = true
     }
     compile 'com.github.PhilJay:MPAndroidChart:v2.0.9'
+    compile 'com.android.support:support-v4:22.1.1'
 }
