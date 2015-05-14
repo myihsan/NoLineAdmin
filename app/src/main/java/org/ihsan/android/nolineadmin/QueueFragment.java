@@ -36,6 +36,7 @@ public class QueueFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
+        getActivity().setTitle("队列管理");
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_queue, container, false);
         mSwipeRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.queue_swipeRefreshLayout);
