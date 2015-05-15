@@ -175,7 +175,7 @@ public class DataFetcher {
         try {
             jsonString = getUrl(url);
             JSONObject jsonObject = new JSONObject(jsonString);
-            queueId = jsonObject.getInt("queueId");
+            queueId = jsonObject.getInt("id");
         } catch (IOException ioe) {
             Log.e(TAG, "Failed to fetch URL: ", ioe);
             return -2;
