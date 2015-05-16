@@ -152,7 +152,7 @@ public class LoginActivity extends BaseActivity {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Integer> {
+    public class UserLoginTask extends AsyncTask<Void, Void, LoginResult> {
 
         private final String mUsername;
         private final String mPassword;
@@ -163,24 +163,24 @@ public class LoginActivity extends BaseActivity {
         }
 
         @Override
-        protected Integer doInBackground(Void... params) {
+        protected LoginResult doInBackground(Void... params) {
             return new DataFetcher(LoginActivity.this).fetchLoginResult(mUsername, mPassword);
         }
 
         @Override
-        protected void onPostExecute(Integer queueId) {
+        protected void onPostExecute(LoginResult loginResult) {
             mAuthTask = null;
             showProgress(false);
 
-            if (queueId == -2) {
+            if (loginResult == null) {
                 Toast.makeText(LoginActivity.this, "网络连接失败，无法登录", Toast.LENGTH_LONG).show();
                 return;
-            } else if (queueId != -1) {
+            } else if (loginResult.getQueueId() != -1) {
                 PreferenceManager.getDefaultSharedPreferences(LoginActivity.this)
                         .edit()
-                        .putInt(getString(R.string.logined_queue_id), queueId)
+                        .putInt(getString(R.string.logined_queue_id), loginResult.getQueueId())
+                        .putBoolean(getString(R.string.logined_queue_state), loginResult.isOpen())
                         .commit();
-                Log.d(TAG, "queueId: " + queueId);
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);

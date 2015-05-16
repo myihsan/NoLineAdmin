@@ -161,8 +161,8 @@ public class DataFetcher {
         return dataArray;
     }
 
-    public int fetchLoginResult(String username, String password) {
-        int queueId = -1;
+    public LoginResult fetchLoginResult(String username, String password) {
+        LoginResult loginResult=null;
         String loginUrl = mContext.getString(R.string.root_url) + "login.php";
         String url = Uri.parse(loginUrl).buildUpon()
                 .appendQueryParameter("username", username)
@@ -175,15 +175,13 @@ public class DataFetcher {
         try {
             jsonString = getUrl(url);
             JSONObject jsonObject = new JSONObject(jsonString);
-            queueId = jsonObject.getInt("id");
+            loginResult=new LoginResult(jsonObject);
         } catch (IOException ioe) {
             Log.e(TAG, "Failed to fetch URL: ", ioe);
-            return -2;
         } catch (JSONException jsone) {
             Log.e(TAG, "Failed to parse result", jsone);
         }
-        Log.d(TAG, queueId + "");
-        return queueId;
+        return loginResult;
     }
 
     public boolean fetchNextQueuerResult(int queueId, int subqueueNumber, int state) {
@@ -197,6 +195,26 @@ public class DataFetcher {
                 .appendQueryParameter("subqueueNumber", String.valueOf(subqueueNumber))
                 .appendQueryParameter("state", String.valueOf(state))
                 .build().toString();
+        try {
+            String result = getUrl(url);
+            Log.d(TAG, result);
+            if (result.equals("succeed")) {
+                flag = true;
+            }
+        } catch (IOException ioe) {
+            Log.e(TAG, "Failed to fetch URL: ", ioe);
+        }
+        return flag;
+    }
+
+    public boolean fetchToggleQueueStateResult(int queueId, boolean isOpen) {
+        boolean flag = false;
+        String fetchUrl = mContext.getString(R.string.root_url) + "togglequeuestate.php";
+        String url = Uri.parse(fetchUrl).buildUpon()
+                .appendQueryParameter("queueId", String.valueOf(queueId))
+                .appendQueryParameter("isOpen", String.valueOf(isOpen))
+                .build().toString();
+        Log.d(TAG, url);
         try {
             String result = getUrl(url);
             Log.d(TAG, result);

@@ -7,4 +7,5 @@
     <string name="queue_next_one">下一位</string>
     <string name="queue_detail">排队详情</string>
     <string name="queue_detail_cache">queueDetailCache</string>
+    <string name="logined_queue_state">loginedQueueState</string>
 </resources>
