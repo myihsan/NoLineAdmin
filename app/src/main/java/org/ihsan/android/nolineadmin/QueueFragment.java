@@ -1,5 +1,6 @@
 package org.ihsan.android.nolineadmin;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -18,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 
@@ -39,7 +42,7 @@ public class QueueFragment extends Fragment {
         getActivity().setTitle("队列管理");
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_queue, container, false);
-        mSwipeRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.queue_swipeRefreshLayout);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.queue_swipeRefreshLayout);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.primary);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -62,6 +65,29 @@ public class QueueFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_add:
+                String[] subqueueNames = new String[mSubqueues.size()];
+                int i = 0;
+                for (Subqueue subqueue : mSubqueues) {
+                    subqueueNames[i] = (subqueue.getName());
+                    i++;
+                }
+                new MaterialDialog.Builder(getActivity())
+                        .title("选择子队列")
+                        .items(subqueueNames)
+                        .itemsCallbackSingleChoice(0, new MaterialDialog
+                                .ListCallbackSingleChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog dialog, View view, int
+                                    which, CharSequence text) {
+                                new QueueUpTask(text.toString()).execute(which);
+                                return true;
+                            }
+                        })
+                        .positiveText("添加")
+                        .negativeText("取消")
+                        .show();
+                return true;
             case R.id.action_logout:
                 PreferenceManager.getDefaultSharedPreferences(getActivity())
                         .edit()
@@ -93,7 +119,7 @@ public class QueueFragment extends Fragment {
                 mSubqueues.clear();
                 mSubqueues.addAll(subqueues);
                 updateAdapter();
-                if(!subqueues.get(0).isFresh()){
+                if (!subqueues.get(0).isFresh()) {
                     Toast.makeText(getActivity(), "服务器连接故障，更新信息失败", Toast.LENGTH_LONG).show();
                 }
             } else {
@@ -124,6 +150,39 @@ public class QueueFragment extends Fragment {
                 Toast.makeText(getActivity(), "处理失败，请重试", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    private class QueueUpTask extends AsyncTask<Integer, Void, Integer> {
+
+        private String mSubqueueName;
+
+        public QueueUpTask(String subqueueName) {
+            mSubqueueName = subqueueName;
+        }
+
+        @Override
+        protected Integer doInBackground(Integer... params) {
+            int queueId = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                    .getInt(getString(R.string.logined_queue_id), -1);
+            return new DataFetcher(getActivity()).fetchQueueUpResult(queueId, params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+
+            if (integer != -1) {
+                Toast.makeText(getActivity(), "添加成功", Toast.LENGTH_LONG).show();
+                new GetDetailTask().execute();
+                new MaterialDialog.Builder(getActivity())
+                        .title("添加结果")
+                        .content(mSubqueueName+"：" + integer)
+                        .positiveText("确定")
+                        .show();
+            } else {
+                Toast.makeText(getActivity(), "加添失败，请重试", Toast.LENGTH_LONG).show();
+            }
+        }
+
     }
 
     private class SubqueueAdapter extends ArrayAdapter<Subqueue> {

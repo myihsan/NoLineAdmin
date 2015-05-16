@@ -1,6 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/action_logout"
-          android:title="@string/action_logout"
-          app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_add"
+        android:title="添加"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_add_white_24dp"/>
+    <item
+        android:id="@+id/action_logout"
+        android:title="@string/action_logout"
+        app:showAsAction="never"/>
 </menu>

@@ -226,4 +226,24 @@ public class DataFetcher {
         }
         return flag;
     }
+
+    public int fetchQueueUpResult(int queueId, int subqueueNumber) {
+        String fetchUrl = mContext.getString(R.string.root_url) + "queueup.php";
+        String url = Uri.parse(fetchUrl).buildUpon()
+                .appendQueryParameter("queueId", String.valueOf(queueId))
+                .appendQueryParameter("subqueueNumber", String.valueOf(subqueueNumber))
+                .appendQueryParameter("token", "管理员添加")
+                .appendQueryParameter("userId", String.valueOf(-1))
+                .build().toString();
+        try {
+            String result = getUrl(url);
+            JSONObject jsonObject=new JSONObject(result);
+            return jsonObject.getInt("queuedNumber");
+        } catch (IOException ioe) {
+            Log.e(TAG, "Failed to fetch URL: ", ioe);
+        } catch (JSONException jsone) {
+            Log.e(TAG, "Failed to parse result", jsone);
+        }
+        return -1;
+    }
 }
