@@ -72,7 +72,8 @@ public class MainActivity extends SingleFragmentActivity {
                                         }
                                     }
                                 }),
-                        new SecondaryDrawerItem().withName("注销")
+                        new SecondaryDrawerItem().withName("注销"),
+                        new SecondaryDrawerItem().withName("关于").withCheckable(false)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -80,6 +81,7 @@ public class MainActivity extends SingleFragmentActivity {
                             id, IDrawerItem drawerItem) {
                         FragmentManager fragmentManager = getFragmentManager();
                         Fragment fragment;
+                        Intent intent;
                         switch (position) {
                             case 0:
                                 fragment = new QueueFragment();
@@ -100,9 +102,13 @@ public class MainActivity extends SingleFragmentActivity {
                                         .edit()
                                         .remove(getString(R.string.logined_queue_id))
                                         .commit();
-                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                intent = new Intent(MainActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();
+                                break;
+                            case 5:
+                                intent = new Intent(MainActivity.this, AboutActivity.class);
+                                startActivity(intent);
                                 break;
                         }
                     }

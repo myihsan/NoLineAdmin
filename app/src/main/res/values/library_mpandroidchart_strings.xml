@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="define_AboutLibraries">year;owner</string>
+    <string name="library_AboutLibraries_author">Mike Penz</string>
+    <string name="library_AboutLibraries_authorWebsite">http://mikepenz.com/</string>
+    <string name="library_AboutLibraries_libraryName">AboutLibraries</string>
+    <string name="library_AboutLibraries_libraryDescription">
+        <![CDATA[
+        <b>AboutLibraries</b> is a library to offer you all the information you need of your libraries!
+        <br /><br />
+        Most modern apps feature an "Used Library"-Section and for this some information of those libs is required. As it gets annoying to copy those strings always to your app I have developed this small helper library to provide the required information.
+        ]]>
+    </string>
+    <string name="library_AboutLibraries_libraryVersion">4.7.2</string>
+    <string name="library_AboutLibraries_libraryWebsite">https://github.com/mikepenz/AboutLibraries</string>
+    <string name="library_AboutLibraries_licenseId">apache_2_0</string>
+    <string name="library_AboutLibraries_isOpenSource">true</string>
+    <string name="library_AboutLibraries_repositoryLink">https://github.com/mikepenz/AboutLibraries</string>
+    <!-- Custom variables section -->
+    <string name="library_AboutLibraries_owner">Mike Penz</string>
+    <string name="library_AboutLibraries_year">2014</string>
+
+
+    <string name="define_mpandroidchart"></string>
+    <!-- Author section -->
+    <string name="library_mpandroidchart_author">Phil Jay</string>
+    <string name="library_mpandroidchart_authorWebsite">https://twitter.com/PhilippJahoda</string>
+    <!-- Library section -->
+    <string name="library_mpandroidchart_libraryName">MPAndroidChart</string>
+    <string name="library_mpandroidchart_libraryDescription"><![CDATA[<b>MPAndroidChart</b> is a powerful & easy to use chart library for Android, supporting line-, bar-, scatter-, candlestick-, bubble-, pie- and radarcharts (spider web), as well as scaling, dragging (panning), selecting and animations. Works on <b>Android 2.2 (API level 8)</b> and upwards.]]></string>
+    <string name="library_mpandroidchart_libraryVersion">2.0.9</string>
+    <string name="library_mpandroidchart_libraryWebsite">https://github.com/PhilJay/MPAndroidChart</string>
+    <!-- OpenSource section -->
+    <string name="library_mpandroidchart_isOpenSource">true</string>
+    <string name="library_mpandroidchart_repositoryLink">https://github.com/PhilJay/MPAndroidChart</string>
+    <!-- License section -->
+    <string name="library_mpandroidchart_licenseId">apache_2_0</string>
+    <!-- Custom variables section -->
+
+</resources>

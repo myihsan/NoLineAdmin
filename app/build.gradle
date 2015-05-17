@@ -33,4 +33,7 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v2.0.9'
     compile 'com.android.support:support-v4:22.1.1'
     compile 'com.afollestad:material-dialogs:0.7.4.1'
+    compile('com.mikepenz.aboutlibraries:library:4.7.2@aar') {
+        transitive = true
+    }
 }
