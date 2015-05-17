@@ -24,7 +24,6 @@ public class AboutActivity extends BaseActivity {
                 .withExcludedLibraries()
                 .withVersionShown(true)
                 .withLicenseShown(true)
-                .withLibraries("mpandroidchart")
                 .fragment();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
