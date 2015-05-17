@@ -17,7 +17,6 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.OnCheckedChangeListener;
@@ -72,8 +71,8 @@ public class MainActivity extends SingleFragmentActivity {
                                         }
                                     }
                                 }),
-                        new SecondaryDrawerItem().withName("注销"),
-                        new SecondaryDrawerItem().withName("关于").withCheckable(false)
+                        new PrimaryDrawerItem().withName("注销"),
+                        new PrimaryDrawerItem().withName("关于").withCheckable(false)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
