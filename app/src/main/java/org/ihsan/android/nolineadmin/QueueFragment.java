@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 
 import java.util.ArrayList;
 
@@ -30,10 +33,32 @@ import java.util.ArrayList;
 public class QueueFragment extends Fragment {
     private static final String TAG = "QueueFragment";
 
+    private Activity mActivity;
+    private Callbacks mCallbacks;
+
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ListView mSubqueueListView;
 
     private ArrayList<Subqueue> mSubqueues = new ArrayList<Subqueue>();
+
+    public interface Callbacks {
+        void onSubqueueTotalClick(int number, String name, ArrayList<User> users);
+
+        void onDrawerCreate(ArrayList<Subqueue> subqueues);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity=activity;
+        mCallbacks = (Callbacks) activity;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mCallbacks = null;
+    }
 
     @Nullable
     @Override
@@ -116,6 +141,7 @@ public class QueueFragment extends Fragment {
         @Override
         protected void onPostExecute(final ArrayList<Subqueue> subqueues) {
             if (subqueues != null) {
+                mCallbacks.onDrawerCreate(subqueues);
                 mSubqueues.clear();
                 mSubqueues.addAll(subqueues);
                 updateAdapter();
@@ -175,7 +201,7 @@ public class QueueFragment extends Fragment {
                 new GetDetailTask().execute();
                 new MaterialDialog.Builder(getActivity())
                         .title("添加结果")
-                        .content(mSubqueueName+"：" + integer)
+                        .content(mSubqueueName + "：" + integer)
                         .positiveText("确定")
                         .show();
             } else {
@@ -219,11 +245,7 @@ public class QueueFragment extends Fragment {
             descriptionView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), UserListActivity.class);
-                    intent.putExtra(UserListFragment.EXTRA_SUBQUEUE_NUMBER, index);
-                    intent.putExtra(UserListFragment.EXTRA_SUBQUEUE_NAME, name);
-                    intent.putExtra(UserListFragment.EXTRA_SUBQUEUE_USERS, users);
-                    startActivity(intent);
+                    mCallbacks.onSubqueueTotalClick(index, name, users);
                 }
             });
             subqueueFirstNumberTextView.setText(String.valueOf(subqueue.getFirstNumber()));
