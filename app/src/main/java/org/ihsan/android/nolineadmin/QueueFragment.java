@@ -33,7 +33,6 @@ import java.util.ArrayList;
 public class QueueFragment extends Fragment {
     private static final String TAG = "QueueFragment";
 
-    private Activity mActivity;
     private Callbacks mCallbacks;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -50,7 +49,6 @@ public class QueueFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mActivity=activity;
         mCallbacks = (Callbacks) activity;
     }
 
