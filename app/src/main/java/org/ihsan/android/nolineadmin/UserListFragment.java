@@ -48,7 +48,7 @@ public class UserListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String title = getArguments().getString(EXTRA_SUBQUEUE_NAME);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
+        getActivity().setTitle(title);
         setHasOptionsMenu(true);
     }
 
