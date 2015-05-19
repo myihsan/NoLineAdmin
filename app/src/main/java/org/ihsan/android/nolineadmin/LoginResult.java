@@ -12,7 +12,9 @@ public class LoginResult {
 
     public LoginResult(JSONObject jsonObject) throws JSONException {
         mQueueId = Integer.valueOf(jsonObject.getString("id"));
-        mIsOpen = jsonObject.getBoolean("isOpen");
+        if (mQueueId!=-1) {
+            mIsOpen = jsonObject.getBoolean("isOpen");
+        }
     }
 
     public int getQueueId() {
