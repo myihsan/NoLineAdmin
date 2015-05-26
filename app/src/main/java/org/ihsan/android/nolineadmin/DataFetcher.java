@@ -112,10 +112,15 @@ public class DataFetcher {
     }
 
     public ArrayList<User> fetchUser(int queueId, int subqueueNumber) {
+        return fetchUser(queueId, subqueueNumber, -1);
+    }
+
+    public ArrayList<User> fetchUser(int queueId, int subqueueNumber, int state) {
         String fetchUrl = mContext.getString(R.string.root_url) + "getsubqueuedetail.php";
         String url = Uri.parse(fetchUrl).buildUpon()
                 .appendQueryParameter("queueId", String.valueOf(queueId))
                 .appendQueryParameter("subqueueNumber", String.valueOf(subqueueNumber))
+                .appendQueryParameter("state", String.valueOf(state))
                 .build().toString();
         ArrayList<User> users = new ArrayList<User>();
         try {
